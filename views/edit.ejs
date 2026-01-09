@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Post</title>
+    <style>
+        :root { --primary: #2563eb; --dark: #1e293b; --light: #f8fafc; --white: #ffffff; --border: #e2e8f0; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--light); margin: 0; padding: 0; color: var(--dark); }
+        
+        .topbar { background: var(--dark); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; }
+        .topbar a { color: white; text-decoration: none; margin-left: 20px; }
+        .brand { font-weight: bold; font-size: 1.2rem; }
+
+        .container { max-width: 800px; margin: 2rem auto; padding: 0 20px; }
+        .editor-panel { background: var(--white); padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 600; color: #475569; }
+        input, select, textarea { width: 100%; padding: 12px; border: 1px solid var(--border); border-radius: 6px; font-family: inherit; box-sizing: border-box; }
+        input:focus, textarea:focus { outline: 2px solid var(--primary); border-color: transparent; }
+        
+        .btn-publish { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 6px; cursor: pointer; font-weight: 600; width: 100%; }
+        .btn-publish:hover { background: #1d4ed8; }
+        .btn-cancel { background: #64748b; color: white; text-decoration: none; padding: 12px 24px; border-radius: 6px; display: inline-block; text-align: center; font-weight: 600; width: 100%; box-sizing: border-box; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="topbar">
+        <div class="brand">Edit Post</div>
+        <div>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="editor-panel">
+            <h2>Editing: <%= post.title %></h2>
+            <form action="/api/posts/edit/<%= post._id %>" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="title" value="<%= post.title %>" required>
+                </div>
+                
+                <div class="form-group">
+                    <label>Category</label>
+                    <select name="category">
+                        <option value="">Uncategorized</option>
+                        <option value="Technology" <%= post.category && post.category.name === 'Technology' ? 'selected' : '' %>>Technology</option>
+                        <option value="Gaming" <%= post.category && post.category.name === 'Gaming' ? 'selected' : '' %>>Gaming</option>
+                        <option value="Entertainment" <%= post.category && post.category.name === 'Entertainment' ? 'selected' : '' %>>Entertainment</option>
+                        <option value="Education" <%= post.category && post.category.name === 'Education' ? 'selected' : '' %>>Education</option>
+                        <option value="Business" <%= post.category && post.category.name === 'Business' ? 'selected' : '' %>>Business</option>
+                        <option value="Health" <%= post.category && post.category.name === 'Health' ? 'selected' : '' %>>Health</option>
+                        <option value="Lifestyle" <%= post.category && post.category.name === 'Lifestyle' ? 'selected' : '' %>>Lifestyle</option>
+                        <option value="Sports" <%= post.category && post.category.name === 'Sports' ? 'selected' : '' %>>Sports</option>
+                        <option value="News" <%= post.category && post.category.name === 'News' ? 'selected' : '' %>>News</option>
+                        <option value="Travel" <%= post.category && post.category.name === 'Travel' ? 'selected' : '' %>>Travel</option>
+                        <option value="Food" <%= post.category && post.category.name === 'Food' ? 'selected' : '' %>>Food</option>
+                        <option value="Finance" <%= post.category && post.category.name === 'Finance' ? 'selected' : '' %>>Finance</option>
+                        <option value="Programming / Development" <%= post.category && post.category.name === 'Programming / Development' ? 'selected' : '' %>>Programming / Development</option>
+                        <option value="Science" <%= post.category && post.category.name === 'Science' ? 'selected' : '' %>>Science</option>
+                        <% if (typeof categories !== 'undefined') { %>
+                            <% categories.forEach(cat => { %>
+                                <option value="<%= cat._id %>" <%= post.category && post.category._id.toString() === cat._id.toString() ? 'selected' : '' %>><%= cat.name %></option>
+                            <% }) %>
+                        <% } %>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>Tags</label>
+                    <input type="text" name="tags" value="<%= post.tags ? post.tags.map(t => t.name).join(', ') : '' %>" placeholder="e.g. Tech, News, Coding (comma separated)">
+                </div>
+
+                <div class="form-group">
+                    <label>Featured Image</label>
+                    <% if (post.image) { %>
+                        <div style="margin-bottom: 10px;">
+                            <img src="<%= post.image %>" style="height: 100px; border-radius: 4px;">
+                            <p style="font-size: 0.8rem; color: #666; margin: 5px 0;">Current Image</p>
+                        </div>
+                    <% } %>
+                    <input type="file" name="image" accept="image/*">
+                </div>
+
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea name="content" rows="15" required><%= post.content %></textarea>
+                </div>
+
+                <button type="submit" class="btn-publish">Update Post</button>
+                <a href="/dashboard" class="btn-cancel">Cancel</a>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+Only for Accessing the Student Page (Student Role Only)
+Gender: Male
+Username: BoyUser
+Password: BoyUser
+Gender: Female
+Username: GirlUser
+Password: GirlUser
+This is used to check:
+If the gender is Male, then the profile type is boy
+If the gender is Girl, then the profile type is girl
+Only for Not-Fully Permission Authority (Limited Admin)
+Admin Email: testingid@admin.com
+Admin Username: TestingAdmin
+Password: TestAdmin
+Only for Full Permission Authority
+Audit Admin Page URL: /audit-admin
+Username: TestingAdminAduit
+Password: TestComNet
+Access Type: Admin of Admin
